@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Weather App</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital@0;1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/main.css">
+    <script src="js/main.js" type="module"></script>
+</head>
+<body>
+    <main class="fade-in">
+        <section id="searchbar" class="searchbar fade-in">
+            <form id="searchbar__form" class="searchbar__form">
+                <input id="searchbar__text" class="searchbar__text" type="text" size="40" autocomplete="off" placeholder="city, state, country">
+                <button id="searchbar__button" class="searchbar__button button" title="Sumbit Location">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <i class="fas fa-sync fa-spin none"></i>
+                </button>
+            </form>
+        </section>
+        <section id="currentforecast" class="currentforecast fde-in">
+            <h2 id="currentforecast__location" class="currentforecast__location">current conditions</h2>
+            <div id="currentforecast__condition"></div>
+        </section>
+        <nav id="navbuttons" class="navbuttons fade-in">
+            <button id="getlocation" class="button" title="Get Location">
+                <i class="fas fa-map-marker-alt"></i>
+                <i class="fas fa-sync fa-spin none"></i>
+            </button>
+            <button id="home" class="button" title="Home Location">
+                <i class="fas fa-home"></i>
+                <i class="fas fa-sync fa-spin none"></i>
+            </button>
+            <button id="savelocation" class="button" title="Save Location">
+                <i class="fas fa-save"></i>
+                <i class="fas fa-sync fa-spin none"></i>
+            </button>
+            <button id="unit" class="button" title="Toggle Measurement Units">
+                <i class="fas fa-chart-bar"></i>
+                <i class="fas fa-sync fa-spin none"></i>
+            </button>
+            <button id="refresh" class="button" title="Refresh Weather">
+                <i class="fas fa-sync-alt"></i>
+                <i class="fas fa-sync fa-spin none"></i>
+            </button>
+        </nav>
+        <hr>
+        <section id="dailyforecast" class="dailyforecaste fade-in">
+            <div id="dailyforecast__contents" class="dailyforecast__contents"></div>
+        </section>
+        <p id="confirmation" class="offscreen"></p>
+    </main>
+</body>
+</html>
+
+
+
