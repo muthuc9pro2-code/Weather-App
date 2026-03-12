@@ -9,6 +9,8 @@ const initApp = () => {
     geobutton.addEventListener("click", getgeoweather); 
     const homebutton = document.getElementById("home");
     homebutton.addEventListener("click", loadweather);
+    const savebutton = document.getElementById("savelocation");
+    savebutton.addEventListener("click", savelocation)
     loadweather();
 };
 
@@ -54,7 +56,23 @@ const loadweather = (event) => {
     }
 };
 
+ const displayhomelocationweather = (home) => {
+    if(typeof home === "string") {
+        const homelocationJson = JSON.parse(home);
+        const mycoords = {
+            lat : homelocationJson.lat,
+            lon : homelocationJson.lon,
+            name : homelocationJson.name,
+            unit : homelocationJson.unit
+        };
+         setlocationobject(currentloc,mycoords);
+         updatedataAnddisplay(currentloc);
+    }
+}
+
  const updatedataAnddisplay = async (locationobj) => {
-    const weatherJson = await getweatherfromcoords(locationobj);
-    if (weatherJson) updatedisplay(weatherJson, locationobj);
+    console.log(locationobj)
+   // const weatherJson = await getweatherfromcoords(locationobj);
+    //if (weatherJson) updatedisplay(weatherJson, locationobj);
  };
+
