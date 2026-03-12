@@ -9,7 +9,7 @@ const animateButton = (element) => {
     element.nextElementSibling.classList.toggle("none");
 };
 
-export const displayError = (message) => {
+export const displayError = (Errormessage) => {
     const h1 = document.getElementById("currentforecast__location");
-    h1.textContent = message;
+    h1.textContent = Errormessage;
 }
