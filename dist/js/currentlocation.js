@@ -31,7 +31,7 @@ export default class currentlocation {
         return this._unit;
     }
     setunit(unit) {
-        this._unit = unit
+        this._unit = unit;
     }
 
     toggleunit() {

@@ -27,7 +27,7 @@ export const displayApierror = (statuscode) => {
 const topropercase = (text) => {
     const words = text.split(" ");
     const properwords =words.map(word => {
-        return word.charAt(0).toUpperCase + word.slice(1);
+        return word.charAt(0).toUpperCase() + word.slice(1);
     });
     return properwords.join(" ");
 };
@@ -36,10 +36,10 @@ export const updatedisplay = (weatherJson, locationobj) => {
     console.log(weatherJson);
     fadedisplay();
     cleardisplay();
-    const weatherclass = getweatherclass(weatherJson[0].weather[0].icon);
+    const weatherclass = getweatherclass(weatherJson.list[0].weather[0].icon);
     setBGimg(weatherclass);
     displayError(locationobj.getname());
-    const ccArray = createCurrentConditionDiv(weatherJson, locationobj.getuint());
+    const ccArray = createCurrentConditionDiv(weatherJson.list[0], locationobj.getunit());
     displaycurrentcondition(ccArray);
     setfocusOnSearch();
     fadedisplay();
@@ -64,7 +64,7 @@ const cleardisplay = () => {
 const deleteall = (content) => {
     let deleteitem = content.lastElementChild;
     while(deleteitem) {
-        content.deleteitem(deleteitem);
+        content.removeChild(deleteitem);
         deleteitem = content.lastElementChild;
     }
 };
@@ -105,12 +105,12 @@ const createCurrentConditionDiv = (weatherobj, unit) => {
     const tempunit = unit === "metric" ? "C" : "F";
     const windunit = unit === "metric" ? "m/s" : "mph";
     const Icon = createCurrentImageDiv (weatherobj.weather[0].icon, weatherobj.weather[0].description);
-    const Temp = createElem("div", "temp", `${Math.round(Number(weatherobj.main.temp))}°`);
+    const Temp = createElem("div", "temp", `${Math.round(Number(weatherobj.main.temp))}° ${tempunit}`);
     const properdesc = topropercase(weatherobj.weather[0].description);
     const Desc = createElem("div", "desc", properdesc);
     const Feels = createElem("div", "feels", `${Math.round(Number(weatherobj.main.feels_like))}°`);
-    const maxTemp = createElem("div", "maxtemp", `High ${Math.round(Number(weatherobj.main.temp_max))}°`);
-    const minTemp = createElem("div", "mintemp", `Low ${Math.round(Number(weatherobj.main.temp_min))}°`);
+    const maxTemp = createElem("div", "maxtemp", `High ${Math.round(Number(weatherobj.main.temp_max))}° ${tempunit}`);
+    const minTemp = createElem("div", "mintemp", `Low ${Math.round(Number(weatherobj.main.temp_min))}° ${tempunit}`);
     const Humidity = createElem("div", "humidity", `Humidity ${weatherobj.main.humidity}%`);
     const Wind = createElem("div", "wind", `wind ${Math.round(Number(weatherobj.wind.speed))} ${windunit}`);
     return [Icon, Temp, Desc, Feels, maxTemp, minTemp, Humidity, Wind];
@@ -120,21 +120,21 @@ const createCurrentImageDiv = (icon, altText) => {
     const icondiv = createElem("div", "icon");
     icondiv.id = "icon";
     const faIcon = iconToFontAwesome(icon);
-    faIcon.text = altText;
-    icondiv.appendchild(faIcon);
+    faIcon.textContent = altText;
+    icondiv.appendChild(faIcon);
     return icondiv;
 };
 
 const createElem = (elemtype, divClassName, divText, unit) => {
     const div = document.createElement(elemtype);
-    div.ClassName = divClassName;
+    div.className = divClassName;
     if(divText) {
         div.textContent = divText;
     } if (divClassName === "temp") {
         const unitdiv = document.createElement("div");
         unitdiv.className = "unit";
         unitdiv.textContent = unit;
-        div.appendchild(unitdiv);
+        div.appendChild(unitdiv);
     }
     return div;
 };

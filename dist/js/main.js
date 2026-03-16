@@ -2,6 +2,7 @@ import { setlocationobject, gethomelocation, getweatherfromcoords, getcoordsfrom
 import { setplaceholdertext, addspinner, displayError, displayApierror, updatedisplay } from "./domfunction.js";
 import currentlocation from "./currentlocation.js";
 const currentloc = new currentlocation();
+currentloc.setunit("metric");
 
 
 const initApp = () => {
