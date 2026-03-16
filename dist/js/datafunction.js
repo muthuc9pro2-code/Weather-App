@@ -25,9 +25,8 @@ export const getweatherfromcoords = async (locationobj) => {
         return jsonweather;
     } catch {
         console.error(err);
-    }
-    
-}
+    }  
+};
 
 export const getcoordsfromApi = async(entrytext, units) => {
     const regex = /^\d+$/g;

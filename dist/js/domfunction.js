@@ -33,12 +33,14 @@ const topropercase = (text) => {
 };
 
 export const updatedisplay = (weatherJson, locationobj) => {
+    console.log(weatherJson);
     fadedisplay();
     cleardisplay();
-    const weatherclass = getweatherclass(weatherJson.current.weather[0].icon);
+    const weatherclass = getweatherclass(weatherJson[0].weather[0].icon);
     setBGimg(weatherclass);
     displayError(locationobj.getname());
     const ccArray = createCurrentConditionDiv(weatherJson, locationobj.getuint());
+    displaycurrentcondition(ccArray);
     setfocusOnSearch();
     fadedisplay();
 };
@@ -102,11 +104,16 @@ const setfocusOnSearch = () => {
 const createCurrentConditionDiv = (weatherobj, unit) => {
     const tempunit = unit === "metric" ? "C" : "F";
     const windunit = unit === "metric" ? "m/s" : "mph";
-    const icon = createCurrentImageDiv (weatherobj.current.weather[0].icon, weatherobj.current.weather[0].description);
-    const temp = createElem("div", "temp", `${Math.round(Number(weatherobj.current.temp))}°`);
-    const properdesc = topropercase(weatherobj.current.weather[0].description);
-    const desc = createElem("div", "desc", properdesc);
-    // const feel = 
+    const Icon = createCurrentImageDiv (weatherobj.weather[0].icon, weatherobj.weather[0].description);
+    const Temp = createElem("div", "temp", `${Math.round(Number(weatherobj.main.temp))}°`);
+    const properdesc = topropercase(weatherobj.weather[0].description);
+    const Desc = createElem("div", "desc", properdesc);
+    const Feels = createElem("div", "feels", `${Math.round(Number(weatherobj.main.feels_like))}°`);
+    const maxTemp = createElem("div", "maxtemp", `High ${Math.round(Number(weatherobj.main.temp_max))}°`);
+    const minTemp = createElem("div", "mintemp", `Low ${Math.round(Number(weatherobj.main.temp_min))}°`);
+    const Humidity = createElem("div", "humidity", `Humidity ${weatherobj.main.humidity}%`);
+    const Wind = createElem("div", "wind", `wind ${Math.round(Number(weatherobj.wind.speed))} ${windunit}`);
+    return [Icon, Temp, Desc, Feels, maxTemp, minTemp, Humidity, Wind];
 };
 
 const createCurrentImageDiv = (icon, altText) => {
@@ -118,7 +125,7 @@ const createCurrentImageDiv = (icon, altText) => {
     return icondiv;
 };
 
-createElem = (elemtype, divClassName, divText, unit) => {
+const createElem = (elemtype, divClassName, divText, unit) => {
     const div = document.createElement(elemtype);
     div.ClassName = divClassName;
     if(divText) {
@@ -127,6 +134,64 @@ createElem = (elemtype, divClassName, divText, unit) => {
         const unitdiv = document.createElement("div");
         unitdiv.className = "unit";
         unitdiv.textContent = unit;
+        div.appendchild(unitdiv);
     }
-    return unitdiv;
-}
+    return div;
+};
+
+const iconToFontAwesome = (icon) => {
+    const i = document.createElement("i");
+    const firstTwochar = icon.slice(0,2);
+    const lastchar = icon.slice(2);
+    switch (firstTwochar) {
+        case "01": 
+            if (lastchar === "d") {
+                i.classList.add("far", "fa-sun");
+            } else {
+                i.classList.add("far", "fa-moon");
+            }
+            break;
+        case "02":
+            if (lastchar === "d") {
+                i.classList.add("fas", "fa-cloud-sun");
+            } else {
+                i.classList.add("fas", "fa-cloud-moon");
+            }
+            break;
+        case "03": 
+            i.classList.add("fas", "fa-cloud");
+            break;
+        case "04":
+            i.classList.add("fas", "fa-cloud-meatball");
+            break;
+        case "09":
+            i.classList.add("fas", "fa-cloud-rain");
+            break;
+        case "10":
+             if (lastchar === "d") {
+                i.classList.add("fas", "fa-cloud-sun-rain");
+            } else {
+                i.classList.add("fas", "fa-cloud-moon-rain");
+            }
+            break;
+        case "11":
+             i.classList.add("fas", "fa-poo-strom");
+            break;
+        case "13":
+            i.classList.add("far", "fa-snowflake");
+            break;
+        case "50":
+            i.classList.add("fas", "fa-smog");
+            break;
+        default:
+            i.classList.add("far", "fa-question-circle");
+    }
+    return i;
+};
+
+const displaycurrentcondition = (currentconditionsArray) => {
+    const ccContainer = document.getElementById("currentforecast__condition");
+    currentconditionsArray.forEach(cc => {
+        ccContainer.appendChild(cc);
+    });
+};
