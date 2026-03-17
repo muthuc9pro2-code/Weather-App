@@ -15,7 +15,14 @@ const animateButton = (element) => {
 
 export const displayError = (Errormessage) => {
     const h1 = document.getElementById("currentforecast__location");
-    h1.textContent = Errormessage;
+    if (Errormessage.indexOf("lat") !== -1 && Errormessage.indexOf("lon") !== -1) {
+        const msgarray = Errormessage.split(" ");
+        const lat = msgarray[1].indexOf("-") !== -1 ? msgarray[1].slice(0, 11) : msgarray[1].slice(0, 10);
+        const lon = msgarray[3].indexOf("-") !== -1 ? msgarray[3].slice(0, 11) : msgarray[3].slice(0, 10);
+        h1.textContent = `${lat} • ${lon}`;    
+    } else {
+        h1.textContent = Errormessage;
+    }
 }
 
 export const displayApierror = (statuscode) => {
@@ -104,16 +111,16 @@ const setfocusOnSearch = () => {
 const createCurrentConditionDiv = (weatherobj, unit) => {
     const tempunit = unit === "metric" ? "C" : "F";
     const windunit = unit === "metric" ? "m/s" : "mph";
-    const Icon = createCurrentImageDiv (weatherobj.weather[0].icon, weatherobj.weather[0].description);
-    const Temp = createElem("div", "temp", `${Math.round(Number(weatherobj.main.temp))}° ${tempunit}`);
+    const icon = createCurrentImageDiv (weatherobj.weather[0].icon, weatherobj.weather[0].description);
+    const temp = createElem("div", "temp", `${Math.round(Number(weatherobj.main.temp))}° ${tempunit}`);
     const properdesc = topropercase(weatherobj.weather[0].description);
-    const Desc = createElem("div", "desc", properdesc);
-    const Feels = createElem("div", "feels", `${Math.round(Number(weatherobj.main.feels_like))}°`);
+    const desc = createElem("div", "desc", properdesc);
+    const feels = createElem("div", "feels", `${Math.round(Number(weatherobj.main.feels_like))}°`);
     const maxTemp = createElem("div", "maxtemp", `High ${Math.round(Number(weatherobj.main.temp_max))}° ${tempunit}`);
     const minTemp = createElem("div", "mintemp", `Low ${Math.round(Number(weatherobj.main.temp_min))}° ${tempunit}`);
-    const Humidity = createElem("div", "humidity", `Humidity ${weatherobj.main.humidity}%`);
-    const Wind = createElem("div", "wind", `wind ${Math.round(Number(weatherobj.wind.speed))} ${windunit}`);
-    return [Icon, Temp, Desc, Feels, maxTemp, minTemp, Humidity, Wind];
+    const humidity = createElem("div", "humidity", `Humidity ${weatherobj.main.humidity}%`);
+    const wind = createElem("div", "wind", `wind ${Math.round(Number(weatherobj.wind.speed))} ${windunit}`);
+    return [icon, temp, desc, feels, maxTemp, minTemp, humidity, wind]; 
 };
 
 const createCurrentImageDiv = (icon, altText) => {

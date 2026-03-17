@@ -2,7 +2,7 @@
   min-width: 48px;
   min-height: 48px;
   color: $button-textcolor;
-  border: 2px solid $bordercolor;
+  border: 2px solid ;
   border-radius: 80px;
   outline: none;
   font-size: 1.25rem;
@@ -21,6 +21,6 @@
 
 .button:hover,
 .button:focus {
-  box-shadow: 4px 2px 5px $text-shadow-color;
+  box-shadow: 4px 2px 5px ;
   border-color: $font-color;
 }

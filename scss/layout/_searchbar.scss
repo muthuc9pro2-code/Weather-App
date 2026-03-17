@@ -4,7 +4,7 @@
   .searchbar__form {
     display: flex;
     justify-content: space-between;
-    border: 2px solid $bordercolor;
+    border: 2px solid whitesmoke;
     border-radius: 500px;
 
     .searchbar__text {
@@ -35,12 +35,12 @@
     .searchbar__button:focus {
       border: none;
       box-shadow: none;
-      text-shadow: 4px 2px 5px $text-shadow-color;
+      text-shadow: 4px 2px 5px ;
     }
   }
 
   .searchbar__form:focus-within,
   .searchbar__form:hover {
-    box-shadow: 4px 2px 5px $text-shadow-color;
+    box-shadow: 4px 2px 5px ;
   }
 } 

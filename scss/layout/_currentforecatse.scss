@@ -9,7 +9,7 @@
     }
   }
 
-  .currentforecast__conditions {
+  .currentforecast__condition {
     width: 100%;
     font-size: 1.1rem;
     margin: auto auto 2rem;
@@ -27,7 +27,7 @@
       grid-column: 1 / span 2;
       font-size: 6rem;
       letter-spacing: 0;
-      text-shadow: 1px 0 5px $text-shadow-color;
+      text-shadow: 1px 0 5px ;
       position: relative;
       @include mq(360px) {
         font-size: 8rem;
@@ -56,7 +56,7 @@
 
       i {
         font-size: 3rem;
-        text-shadow: 1px 0 5px $text-shadow-color;
+        text-shadow: 1px 0 5px;
         @include mq(768px) {
           font-size: 4rem;
         }
