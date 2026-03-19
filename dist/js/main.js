@@ -135,4 +135,3 @@ const submitnewlocation = async(event) => {
     const weatherJson = await getweatherfromcoords(locationobj);
     if (weatherJson) updatedisplay(weatherJson, locationobj);
  };
-

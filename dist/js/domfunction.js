@@ -17,9 +17,9 @@ export const displayError = (Errormessage) => {
     const h1 = document.getElementById("currentforecast__location");
     if (Errormessage.indexOf("lat") !== -1 && Errormessage.indexOf("lon") !== -1) {
         const msgarray = Errormessage.split(" ");
-        const lat = msgarray[1].indexOf("-") !== -1 ? msgarray[1].slice(0, 11) : msgarray[1].slice(0, 10);
-        const lon = msgarray[3].indexOf("-") !== -1 ? msgarray[3].slice(0, 11) : msgarray[3].slice(0, 10);
-        h1.textContent = `${lat} • ${lon}`;    
+        const lat = msgarray[1].indexOf("-") !== -1 ? msgarray[1].slice(0, 7) : msgarray[1].slice(0, 6);
+        const lon = msgarray[3].indexOf("-") !== -1 ? msgarray[3].slice(0, 7) : msgarray[3].slice(0, 6);
+        h1.textContent = `Lat: ${lat} • Lon: ${lon}`;    
     } else {
         h1.textContent = Errormessage;
     }
@@ -40,7 +40,6 @@ const topropercase = (text) => {
 };
 
 export const updatedisplay = (weatherJson, locationobj) => {
-    console.log(weatherJson);
     fadedisplay();
     cleardisplay();
     const weatherclass = getweatherclass(weatherJson.list[0].weather[0].icon);
@@ -48,25 +47,37 @@ export const updatedisplay = (weatherJson, locationobj) => {
     displayError(locationobj.getname());
     const ccArray = createCurrentConditionDiv(weatherJson.list[0], locationobj.getunit());
     displaycurrentcondition(ccArray);
+    displayFiveDayForecast(weatherJson, locationobj.getunit());
     setfocusOnSearch();
     fadedisplay();
 };
 
 const fadedisplay = () => {
     const cc = document.getElementById("currentforecast");
-    cc.classList.toggle("zero-vis");
-    cc.classList.toggle("fade-in");
-    const fiveday =  document.getElementById("dailyforecast");
-    fiveday.classList.toggle("zero-vis");
-    fiveday.classList.toggle("fade-in");
+    const fiveday = document.getElementById("dailyforecast");
+
+    cc.classList.remove("fade-in");
+    cc.classList.add("zero-vis");
+
+    fiveday.classList.remove("fade-in");
+    fiveday.classList.add("zero-vis");
+
+    setTimeout(() => {
+        cc.classList.remove("zero-vis");
+        cc.classList.add("fade-in");
+
+        fiveday.classList.remove("zero-vis");
+        fiveday.classList.add("fade-in");
+    }, 50);
 };
+
 
 const cleardisplay = () => {
     const currentcondition = document.getElementById("currentforecast__condition");
     deleteall(currentcondition);
     const dailycontents = document.getElementById("dailyforecast__contents");
     deleteall(dailycontents);
-}
+};
 
 const deleteall = (content) => {
     let deleteitem = content.lastElementChild;
@@ -89,11 +100,9 @@ const getweatherclass = (icon) => {
     let weatherclass;
     if(match[firstTwochar]) {
         weatherclass = match[firstTwochar];
-    } else if (lastchar === "d") {
-        weatherclass = "clouds";
     } else {
-        weatherclass = "night"
-    } 
+        weatherclass = lastchar === "d" ? "clouds" : "night";
+    }
     return weatherclass;
 };
 
@@ -111,23 +120,22 @@ const setfocusOnSearch = () => {
 const createCurrentConditionDiv = (weatherobj, unit) => {
     const tempunit = unit === "metric" ? "C" : "F";
     const windunit = unit === "metric" ? "m/s" : "mph";
-    const icon = createCurrentImageDiv (weatherobj.weather[0].icon, weatherobj.weather[0].description);
+    const icon = createCurrentImageDiv (weatherobj.weather[0].icon);
     const temp = createElem("div", "temp", `${Math.round(Number(weatherobj.main.temp))}° ${tempunit}`);
     const properdesc = topropercase(weatherobj.weather[0].description);
     const desc = createElem("div", "desc", properdesc);
-    const feels = createElem("div", "feels", `${Math.round(Number(weatherobj.main.feels_like))}°`);
+    const feels = createElem("div", "feels", `Feels Like ${Math.round(Number(weatherobj.main.feels_like))}° ${tempunit}`);
     const maxTemp = createElem("div", "maxtemp", `High ${Math.round(Number(weatherobj.main.temp_max))}° ${tempunit}`);
     const minTemp = createElem("div", "mintemp", `Low ${Math.round(Number(weatherobj.main.temp_min))}° ${tempunit}`);
     const humidity = createElem("div", "humidity", `Humidity ${weatherobj.main.humidity}%`);
     const wind = createElem("div", "wind", `wind ${Math.round(Number(weatherobj.wind.speed))} ${windunit}`);
     return [icon, temp, desc, feels, maxTemp, minTemp, humidity, wind]; 
-};
+}; 
 
-const createCurrentImageDiv = (icon, altText) => {
+const createCurrentImageDiv = (icon) => {
     const icondiv = createElem("div", "icon");
     icondiv.id = "icon";
     const faIcon = iconToFontAwesome(icon);
-    faIcon.textContent = altText;
     icondiv.appendChild(faIcon);
     return icondiv;
 };
@@ -201,4 +209,31 @@ const displaycurrentcondition = (currentconditionsArray) => {
     currentconditionsArray.forEach(cc => {
         ccContainer.appendChild(cc);
     });
+};
+
+const displayFiveDayForecast = (weatherJson, unit) => {
+    const container = document.getElementById("dailyforecast__contents");
+    const tempunit = unit === "metric" ? "C" : "F";
+
+    for (let i = 8; i < weatherJson.list.length; i += 8) {
+
+    const day = weatherJson.list[i];
+    const date = new Date(day.dt * 1000);
+
+    const dayName = date.toLocaleDateString("en-US", { weekday : "short"});
+    const dayElem = createElem("div", "forecastDay");
+    const Name = createElem("p", "day", dayName);
+
+    const icondiv = createElem("div", "icon");
+    const icon = iconToFontAwesome(day.weather[0].icon);
+    icondiv.appendChild(icon);
+
+    const temp = createElem("p", "temp", `${Math.round(day.main.temp)}° ${tempunit}`);
+
+    dayElem.appendChild(Name);
+    dayElem.appendChild(icondiv);
+    dayElem.appendChild(temp);
+
+    container.appendChild(dayElem);
+    };
 };
