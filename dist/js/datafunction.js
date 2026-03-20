@@ -1,3 +1,4 @@
+
 export const setlocationobject = (locationobj, coordsobj) => {
     const {lat, lon, name, unit} = coordsobj;
     locationobj.setlat(lat);
