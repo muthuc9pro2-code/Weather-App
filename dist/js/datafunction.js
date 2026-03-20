@@ -32,7 +32,7 @@ export const getweatherfromcoords = async (locationobj) => {
      unit: locationobj.getunit()
     };
     try {
-       const weatherstream = await fetch('./.netlify/functions/get_weather', {
+       const weatherstream = await fetch('/.netlify/functions/get_weather', {
         method: "POST",
         body: JSON.stringify(urlDataObject)
        }); 
@@ -62,7 +62,7 @@ export const getcoordsfromApi = async(entrytext, units) => {
         units: units
     };
     try {
-        const datastream = await fetch('./.netlify/function/get_coords', {
+        const datastream = await fetch('/.netlify/functions/get_coords', {
             method: "POST",
             body: JSON.stringify(urldataobject)
         });
@@ -78,5 +78,8 @@ export const cleantext = (text) => {
     const entrytext = text.replaceAll(regex, " ").trim();
     return entrytext;
 };
+
+
+
 
 

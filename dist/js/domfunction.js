@@ -190,7 +190,7 @@ const iconToFontAwesome = (icon) => {
             }
             break;
         case "11":
-             i.classList.add("fas", "fa-poo-strom");
+             i.classList.add("fas", "fa-poo-storm");
             break;
         case "13":
             i.classList.add("far", "fa-snowflake");

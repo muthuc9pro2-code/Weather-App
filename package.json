@@ -19,6 +19,6 @@
   },
   "homepage": "https://github.com/muthuc9pro2-code/Weather-App#readme",
   "dependencies": {
-    "node-fetch": "^3.3.2"
+    "node-fetch": "^2.7.0"
   }
 }

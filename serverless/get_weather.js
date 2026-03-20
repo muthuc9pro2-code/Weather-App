@@ -8,7 +8,7 @@ exports.handler = async (event, context) => {
     const url = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${unit}&appid=${WEATHER_API_KEY}`;
     try {
         const weatherstream = await fetch(url);
-        const jsonweather = await weatherstream.Json();
+        const jsonweather = await weatherstream.json();
         return {
             statusCode: 200,
             body: JSON.stringify(jsonweather)
