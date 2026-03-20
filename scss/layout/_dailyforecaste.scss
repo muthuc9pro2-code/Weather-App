@@ -9,6 +9,8 @@
   }
 
   .dailyforecast__contents {
+    overflow-x: auto;
+    overflow-y: hidden;
     flex-grow: 1;
     @include flexCenter;
     justify-content: space-evenly;
