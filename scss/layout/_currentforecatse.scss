@@ -67,7 +67,7 @@
     @include flexCenter;
     grid-row: 4;
     grid-column: 1 / span 2;
-    text-shadow: 1px 0 5px $text-shadow-color;
+    text-shadow: 0.3px 0 1px $text-shadow-color;
   }
 
   .feels {
